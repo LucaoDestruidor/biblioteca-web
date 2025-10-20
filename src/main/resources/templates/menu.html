@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Principal - Sistema de Biblioteca</title>
+    <style>
+        :root {
+            --primary-color: #3498db; --primary-dark: #2980b9; --secondary-color: #2c3e50;
+            --light-gray: #ecf0f1; --dark-gray: #7f8c8d; --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1); --shadow-hover: 0 8px 15px rgba(0,0,0,0.15);
+            --border-radius: 8px; --transition: all 0.3s ease;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-gray); color: #2c3e50;
+        }
+        header {
+            background: var(--secondary-color); color: var(--white);
+            padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: var(--shadow);
+        }
+        header h1 { font-size: 1.8rem; }
+        .user-info { display: flex; align-items: center; gap: 1rem; }
+        .btn {
+            padding: 0.75rem 1.5rem; border: none; border-radius: var(--border-radius);
+            font-size: 0.9rem; cursor: pointer; text-decoration: none; text-align: center;
+        }
+        .btn-secondary { background: #bdc3c7; color: var(--secondary-color); }
+        .menu-container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+        .menu-container h2 { text-align: center; margin-bottom: 3rem; font-size: 2.5rem; font-weight: 300; }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; }
+        .menu-card {
+            background: var(--white); padding: 2.5rem; border-radius: 15px;
+            box-shadow: var(--shadow); text-align: center; transition: var(--transition);
+            border-top: 4px solid var(--primary-color);
+        }
+        .menu-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover); }
+        .menu-card h3 { color: var(--secondary-color); margin-bottom: 1rem; font-size: 1.5rem; }
+        .menu-card p { color: var(--dark-gray); margin-bottom: 2rem; line-height: 1.6; }
+        .btn-primary { background: var(--primary-color); color: var(--white); width: 100%; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sistema de Biblioteca</h1>
+        <div class="user-info">
+            <span><span th:text="${usuario.nome}"></span> (<span th:text="${usuario.tipo}"></span>)</span>
+            <a th:href="@{/logout}" class="btn btn-secondary">Sair</a>
+        </div>
+    </header>
+    <main class="menu-container">
+        <h2>Menu Principal</h2>
+        <div class="menu-grid">
+            <div class="menu-card">
+                <h3>Gerenciar Livros</h3>
+                <p>Acesse o catálogo de livros, faça reservas e gerencie o acervo.</p>
+                <a th:href="@{/livros}" class="btn btn-primary">Acessar</a>
+            </div>
+            <div class="menu-card" th:if="${usuario.tipo == 'professor' or usuario.tipo == 'bibliotecario'}">
+                <h3>Gerenciar Usuários</h3>
+                <p>Visualize e gerencie os usuários do sistema.</p>
+                <a th:href="@{/usuarios}" class="btn btn-primary">Acessar</a>
+            </div>
+            <div class="menu-card">
+                <h3>Gerenciar Empréstimos</h3>
+                <p>Controle os empréstimos e devoluções de livros.</p>
+                <a th:href="@{/emprestimos}" class="btn btn-primary">Acessar</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

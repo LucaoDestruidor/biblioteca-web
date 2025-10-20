@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${livro.id != null} ? 'Editar Livro' : 'Novo Livro'">Cadastro de Livro</title>
+    <style>
+        :root {
+            --primary-color: #3498db; --secondary-color: #2c3e50; --white: #ffffff;
+            --light-gray: #ecf0f1; --shadow: 0 4px 6px rgba(0,0,0,0.1); --border-radius: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--light-gray); }
+        .container { max-width: 600px; margin: 2rem auto; padding: 2rem; background: var(--white); border-radius: var(--border-radius); box-shadow: var(--shadow); }
+        header {
+            background: var(--secondary-color); color: var(--white);
+            padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 2rem;
+        }
+        header h1 { font-size: 1.8rem; }
+        .form-title { text-align: center; margin-bottom: 2rem; color: var(--secondary-color); font-size: 2rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        .form-group input[type="text"] {
+            width: 100%; padding: 0.75rem; border: 2px solid var(--light-gray);
+            border-radius: var(--border-radius); font-size: 1rem;
+        }
+        .checkbox-group { display: flex; align-items: center; gap: 0.5rem; }
+        .checkbox-group input { width: auto; transform: scale(1.2); }
+        .form-buttons { display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem; }
+        .btn {
+            padding: 0.75rem 1.5rem; border: none; border-radius: var(--border-radius);
+            font-size: 0.9rem; cursor: pointer; text-decoration: none;
+        }
+        .btn-primary { background: var(--primary-color); color: white; }
+        .btn-secondary { background: #bdc3c7; color: var(--secondary-color); }
+        .mensagem-erro {
+            background: #e74c3c; color: var(--white); padding: 1rem;
+            border-radius: var(--border-radius); margin-bottom: 1.5rem; text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 th:text="${livro.id != null} ? 'Editar Livro' : 'Novo Livro'">Cadastro de Livro</h1>
+        <a th:href="@{/livros}" class="btn btn-secondary">Voltar</a>
+    </header>
+    
+    <main class="container">
+        <div th:if="${mensagemErro}" class="mensagem-erro" th:text="${mensagemErro}"></div>
+        
+        <form th:action="@{/livros/salvar}" th:object="${livro}" method="post">
+            <input type="hidden" th:field="*{id}">
+            
+            <div class="form-group">
+                <label for="titulo">Título:</label>
+                <input type="text" id="titulo" th:field="*{titulo}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="autor">Autor:</label>
+                <input type="text" id="autor" th:field="*{autor}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="isbn">ISBN:</label>
+                <input type="text" id="isbn" th:field="*{isbn}" required>
+            </div>
+            
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="disponivel" th:field="*{disponivel}">
+                <label for="disponivel">Disponível</label>
+            </div>
+            
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="reservado" th:field="*{reservado}">
+                <label for="reservado">Reservado</label>
+            </div>
+            
+            <div class="form-buttons">
+                <a th:href="@{/livros}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

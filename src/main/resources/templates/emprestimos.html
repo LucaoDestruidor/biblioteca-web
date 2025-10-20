@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Empréstimos - Sistema de Biblioteca</title>
+    <style>
+        :root {
+            --primary-color: #3498db; --secondary-color: #2c3e50; --success-color: #27ae60;
+            --warning-color: #f39c12; --white: #ffffff; --light-gray: #ecf0f1;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1); --border-radius: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--light-gray); }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+        header {
+            background: var(--secondary-color); color: var(--white);
+            padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: var(--shadow);
+        }
+        header h1 { font-size: 1.8rem; }
+        .user-info { display: flex; align-items: center; gap: 1rem; }
+        .table-container {
+            background: var(--white); padding: 2rem; border-radius: var(--border-radius);
+            margin-bottom: 2rem; box-shadow: var(--shadow);
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: var(--secondary-color); color: var(--white); padding: 1.25rem 1rem; text-align: left; }
+        td { padding: 1rem; border-bottom: 1px solid var(--light-gray); vertical-align: middle; }
+        tr:hover { background-color: #f8f9fa; }
+        .status-ativo { color: var(--success-color); font-weight: 600; }
+        .status-reservado { color: var(--warning-color); font-weight: 600; }
+        .status-devolvido { color: var(--primary-color); font-weight: 600; }
+        .btn {
+            padding: 0.75rem 1.5rem; border: none; border-radius: var(--border-radius);
+            font-size: 0.9rem; cursor: pointer; text-decoration: none; color: white;
+        }
+        .btn-small { padding: 0.5rem 1rem; font-size: 0.8rem; }
+        .btn-primary { background: #3498db; }
+        .btn-secondary { background: #bdc3c7; color: #2c3e50; }
+        .mensagem-sucesso, .mensagem-erro {
+            color: var(--white); padding: 1rem; border-radius: var(--border-radius);
+            margin-bottom: 1.5rem; box-shadow: var(--shadow);
+        }
+        .mensagem-sucesso { background: var(--success-color); }
+        .mensagem-erro { background: #e74c3c; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gerenciamento de Empréstimos</h1>
+        <div class="user-info">
+            <span th:text="${usuario.nome}">Usuário</span>
+            <a th:href="@{/menu}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div th:if="${mensagemSucesso}" class="mensagem-sucesso" th:text="${mensagemSucesso}"></div>
+        <div th:if="${mensagemErro}" class="mensagem-erro" th:text="${mensagemErro}"></div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Livro</th>
+                        <th>Usuário</th>
+                        <th>Tipo</th>
+                        <th>Data Empréstimo</th>
+                        <th>Status</th>
+                        <th th:if="${usuario.tipo == 'bibliotecario'}">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="emprestimo : ${emprestimos}">
+                        <td th:text="${emprestimo.id}">1</td>
+                        <td th:text="${emprestimo.livro.titulo}">Dom Casmurro</td>
+                        <td th:text="${emprestimo.usuario.nome}">João</td>
+                        <td th:text="${emprestimo.usuario.tipo}">aluno</td>
+                        <td th:text="${#temporals.format(emprestimo.dataEmprestimo, 'dd/MM/yyyy')}">15/10/2025</td>
+                        <td>
+                            <span th:if="${emprestimo.status == 'ativo'}" class="status-ativo">Ativo</span>
+                            <span th:if="${emprestimo.status == 'reservado'}" class="status-reservado">Reservado</span>
+                            <span th:if="${emprestimo.status == 'devolvido'}" class="status-devolvido">Devolvido</span>
+                        </td>
+                        <td th:if="${usuario.tipo == 'bibliotecario'}">
+                            <a th:if="${emprestimo.status == 'ativo'}" 
+                               th:href="@{/emprestimos/devolver/{id}(id=${emprestimo.id})}" 
+                               class="btn btn-primary btn-small"
+                               onclick="return confirm('Confirmar devolução?')">Devolver</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(emprestimos)}">
+                        <td colspan="7" style="text-align: center;">Nenhum empréstimo encontrado</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        </main>
+</body>
+</html>

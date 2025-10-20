@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${usuario.id != null} ? 'Editar Usuário' : 'Adicionar Aluno'">Adicionar Aluno</title>
+    <style>
+        :root {
+            --primary-color: #3498db; --secondary-color: #2c3e50; --white: #ffffff;
+            --light-gray: #ecf0f1; --shadow: 0 4px 6px rgba(0,0,0,0.1); --border-radius: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--light-gray); }
+        .container { max-width: 600px; margin: 2rem auto; padding: 2rem; background: var(--white); border-radius: var(--border-radius); box-shadow: var(--shadow); }
+        header { background: var(--secondary-color); color: var(--white); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        h1 { text-align: center; margin-bottom: 2rem; color: var(--secondary-color); }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 0.75rem; border: 2px solid var(--light-gray);
+            border-radius: var(--border-radius); font-size: 1rem;
+        }
+        .form-buttons { display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem; }
+        .btn {
+            padding: 0.75rem 1.5rem; border: none; border-radius: var(--border-radius);
+            font-size: 0.9rem; cursor: pointer; text-decoration: none;
+        }
+        .btn-primary { background: var(--primary-color); color: white; }
+        .btn-secondary { background: #bdc3c7; color: var(--secondary-color); }
+        .mensagem-erro {
+            background: #e74c3c; color: var(--white); padding: 1rem;
+            border-radius: var(--border-radius); margin-bottom: 1.5rem; text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 th:text="${usuario.id != null} ? 'Editar Usuário' : 'Adicionar Aluno'">Formulário de Usuário</h1>
+        <div class="user-info">
+            <a th:href="@{/usuarios}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div th:if="${mensagemErro}" class="mensagem-erro" th:text="${mensagemErro}"></div>
+        
+        <form th:action="@{/usuarios/salvar}" th:object="${usuario}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" th:field="*{nome}" required>
+            </div>
+            <div class="form-group">
+                <label for="login">Login:</label>
+                <input type="text" id="login" th:field="*{login}" required>
+            </div>
+            <div class="form-group">
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" th:field="*{senha}" required>
+            </div>
+            <div class="form-group" th:if="${session.usuarioLogado.tipo == 'bibliotecario'}">
+                <label for="tipo">Tipo:</label>
+                <select id="tipo" th:field="*{tipo}">
+                    <option value="aluno">Aluno</option>
+                    <option value="professor">Professor</option>
+                    <option value="bibliotecario">Bibliotecário</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="matricula">Matrícula (apenas para alunos):</label>
+                <input type="text" id="matricula" th:field="*{matricula}">
+            </div>
+            <div class="form-buttons">
+                <a th:href="@{/usuarios}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

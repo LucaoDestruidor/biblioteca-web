@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Usuários - Sistema de Biblioteca</title>
+    <style>
+        :root {
+            --primary-color: #3498db; --secondary-color: #2c3e50; --white: #ffffff;
+            --light-gray: #ecf0f1; --shadow: 0 4px 6px rgba(0,0,0,0.1); --border-radius: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--light-gray); }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+        header {
+            background: var(--secondary-color); color: var(--white);
+            padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+        }
+        .table-container, .button-panel {
+            background: var(--white); padding: 2rem; border-radius: var(--border-radius);
+            margin-bottom: 2rem; box-shadow: var(--shadow);
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: var(--secondary-color); color: var(--white); padding: 1.25rem 1rem; text-align: left; }
+        td { padding: 1rem; border-bottom: 1px solid var(--light-gray); }
+        tr:hover { background-color: #f8f9fa; }
+        .button-panel { text-align: center; }
+        .btn {
+            padding: 0.75rem 1.5rem; border: none; border-radius: var(--border-radius);
+            font-size: 0.9rem; cursor: pointer; text-decoration: none; color: white;
+        }
+        .btn-primary { background: #3498db; }
+        .btn-secondary { background: #bdc3c7; color: #2c3e50; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gerenciamento de Usuários</h1>
+        <div class="user-info">
+            <span th:text="${usuario.nome}">Usuário</span>
+            <a th:href="@{/menu}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Login</th>
+                        <th>Tipo</th>
+                        <th>Matrícula</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="u : ${usuarios}">
+                        <td th:text="${u.id}">1</td>
+                        <td th:text="${u.nome}">Nome do Usuário</td>
+                        <td th:text="${u.login}">login.user</td>
+                        <td th:text="${u.tipo}">aluno</td>
+                        <td th:text="${u.matricula}">202512345</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="button-panel" th:if="${usuario.tipo == 'professor'}">
+            <a th:href="@{/usuarios/novo}" class="btn btn-primary">Adicionar Aluno</a>
+        </div>
+    </main>
+</body>
+</html>

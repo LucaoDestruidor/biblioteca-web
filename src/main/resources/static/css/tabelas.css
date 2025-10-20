@@ -1,0 +1,152 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* tabelas.css - Estilos modernos para tabelas */
+.top-panel {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.busca-panel {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.busca-panel label {
+    font-weight: 600;
+    color: var(--secondary-color);
+    white-space: nowrap;
+}
+
+.busca-panel input {
+    flex: 1;
+    min-width: 250px;
+    max-width: 400px;
+    padding: 0.75rem;
+}
+
+.table-container {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+th {
+    background: linear-gradient(135deg, var(--secondary-color), #34495e);
+    color: var(--white);
+    font-weight: 600;
+    padding: 1.25rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--light-gray);
+    vertical-align: middle;
+}
+
+tr {
+    transition: var(--transition);
+}
+
+tr:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.01);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* Status colors */
+.status-ativo {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+.status-reservado {
+    color: var(--warning-color);
+    font-weight: 600;
+}
+
+.status-devolvido {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Button panel */
+.button-panel {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    padding: 2rem;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    flex-wrap: wrap;
+}
+
+/* Ações em tabelas */
+.acoes-cell {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* Responsividade para tabelas */
+@media (max-width: 768px) {
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    table {
+        font-size: 0.85rem;
+        min-width: 600px;
+    }
+    
+    th, td {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .busca-panel {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .busca-panel input {
+        max-width: none;
+        min-width: auto;
+    }
+    
+    .button-panel {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .acoes-cell {
+        flex-direction: column;
+    }
+}
+
+/* Linha selecionada */
+tr.selected {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb) !important;
+    border-left: 4px solid var(--primary-color);
+}
